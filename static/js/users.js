@@ -6,7 +6,6 @@ document.getElementById("register").onsubmit = function (e) {
             'fecha_nacimiento': document.getElementById('fecha_nacimiento').value,
             'nombre': document.getElementById('nombre').value,
             'apellido': document.getElementById('apellido').value,
-            'edad': document.getElementById('edad').value,
             'correo': document.getElementById('correo').value,
             'contrasenia': document.getElementById('contrasenia').value
         }),

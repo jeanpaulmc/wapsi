@@ -7,7 +7,7 @@ import sys
 from sqlalchemy import sql
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost:5432/wapsi'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:melendez2016@localhost:5432/wapsi'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -22,7 +22,6 @@ class Usuario(db.Model):
     billetera = db.Column(db.Integer, default=0)
     nombre = db.Column(db.String(50), nullable=False)
     apellido = db.Column(db.String(50), nullable=False)
-    edad = db.Column(db.Integer, nullable=False)
     correo = db.Column(db.String(50), unique=True)
     contrasenia = db.Column(db.String(50), nullable=False)
     barra = db.Column(db.Integer, default=0)
@@ -119,17 +118,15 @@ def create_user():
         fecha_nacimiento = request.get_json()['fecha_nacimiento']
         nombre = request.get_json()['nombre']
         apellido = request.get_json()['apellido']
-        edad = request.get_json()['edad']
         correo = request.get_json()['correo']
         contrasenia = request.get_json()['contrasenia']
         user = Usuario(fecha_nacimiento=fecha_nacimiento, nombre=nombre,
-                       apellido=apellido, edad=edad, correo=correo, contrasenia=contrasenia)
+                       apellido=apellido, correo=correo, contrasenia=contrasenia)
         db.session.add(user)
         db.session.commit()
         response['fecha_nacimiento'] = user.fecha_nacimiento
         response['nombre'] = user.nombre
         response['apellido'] = user.apellido
-        response['edad'] = user.edad
         response['correo'] = user.correo
         response['contrasenia'] = user.contrasenia
     except:
