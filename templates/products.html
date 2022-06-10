@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<nav>
+    <ul class="nav__links">
+        <li><a href="#">Subastas</a></li>
+        <li><a href="/products/{{data2.dni}}">Postear</a></li>
+        <li><a href="#">Recargar</a></li>
+    </ul>
+</nav>
+<a class="cta" href="/">Logout</a>
+{% endblock %}
+
+{% block content %}
+<form id="public_product">
+    <h1>SUBIDA DE PRODUCTO</h1>
+    <p>Su DNI:</p>
+    <input type=»text» id="DNI" name="DNI" value="{{data2.dni}}" readonly=»readonly» placeholder="{{data2.dni}}">
+    <p>Nombre del producto:</p>
+    <input type="text" id="name" name="name">
+    <p>Precio del producto</p>
+    <input type="text" id="price" name="price">
+    <p>Tiempo de inicio</p>
+    <input type="text" id="TI" name="TI">
+    <p>Tiempo final</p>
+    <input type="text" id="TF" name="TF">
+    <p>Descripcion del producto</p>
+    <input type="text" id="features" name="features">
+    <input type="submit" id="submit" value="Submit">
+</form>
+<ul id="products">
+    <li>NOMBRE DEL PRODUCTO PRECIO DEL PRODUCTO DESCRIPCION</li>
+    {% for d in data %}
+    <li>
+        {{d.nombre}} {{d.precio_inicial}} {{d.caracteristicas}}
+        <button class="delete-button" data-id="{{d.id}}">&cross;</button>
+    </li>
+    {% endfor %}
+</ul>
+
+<div id="error" class="hidden"></div>
+
+
+
+<script src="../../static/js/product.js"></script>
+
+{% endblock %}
