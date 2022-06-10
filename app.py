@@ -7,7 +7,7 @@ import sys
 from sqlalchemy import sql
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:melendez2016@localhost:5432/wapsi'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost:5432/wapsi'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -17,12 +17,11 @@ migrate = Migrate(app, db)
 
 class Usuario(db.Model):
     __tablename__ = 'usuario'
-    codigo = db.Column(db.Integer, primary_key=True)
     fecha_nacimiento = db.Column(db.String(50), nullable=False)
     billetera = db.Column(db.Integer, default=0)
     nombre = db.Column(db.String(50), nullable=False)
     apellido = db.Column(db.String(50), nullable=False)
-    correo = db.Column(db.String(50), unique=True)
+    correo = db.Column(db.String(50), primary_key = True) 
     contrasenia = db.Column(db.String(50), nullable=False)
     barra = db.Column(db.Integer, default=0)
 
@@ -30,8 +29,8 @@ class Usuario(db.Model):
 class Tarjeta(db.Model):
     __tablename__ = 'tarjeta'
     codigo = db.Column(db.Integer, primary_key=True)
-    codigo_usuario = db.Column(db.Integer, db.ForeignKey(
-        'usuario.codigo'), nullable=False)
+    codigo_usuario = db.Column(db.String(50), db.ForeignKey(
+        'usuario.correo'), nullable=False)
 
 
 class Compra(db.Model):
@@ -48,22 +47,22 @@ class Llamacoin(db.Model):
     precio = db.Column(db.Integer, nullable=False)
     compra_codigo = db.Column(db.Integer, db.ForeignKey(
         'compra.codigo'), nullable=False)
-    usuario_codigo = db.Column(db.Integer, db.ForeignKey(
-        'usuario.codigo'), nullable=False)
+    usuario_codigo = db.Column(db.String(50), db.ForeignKey(
+        'usuario.correo'), nullable=False)
 
 
 class Buyers(db.Model):
     __tablename__ = 'buyers'
     codigo = db.Column(db.Integer, primary_key=True)
-    buyer_codigo = db.Column(db.Integer, db.ForeignKey(
-        'usuario.codigo'), nullable=False)
+    buyer_codigo = db.Column(db.String(50), db.ForeignKey(
+        'usuario.correo'), nullable=False)
 
 
 class Desarrollador(db.Model):
     __tablename__ = 'desarrollador'
     codigo = db.Column(db.Integer, primary_key=True)
-    desarrollador_codigo = db.Column(db.Integer, db.ForeignKey(
-        'usuario.codigo'), nullable=False)
+    desarrollador_codigo = db.Column(db.String(50), db.ForeignKey(
+        'usuario.correo'), nullable=False)
 
 
 class Compra_producto(db.Model):
@@ -71,8 +70,8 @@ class Compra_producto(db.Model):
     codigo = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), nullable=False)
     categoria = db.Column(db.String(50), nullable=False)
-    usuario_codigo = db.Column(db.Integer, db.ForeignKey(
-        'usuario.codigo'), nullable=False)
+    usuario_codigo = db.Column(db.String(50), db.ForeignKey(
+        'usuario.correo'), nullable=False)
     compra_codigo = db.Column(db.Integer, db.ForeignKey(
         'compra.codigo'), nullable=False)
 
@@ -91,16 +90,16 @@ class Ruleta(db.Model):
     codigo = db.Column(db.Integer, primary_key=True)
     descuento = db.Column(db.Integer, default=0)
     resultado = db.Column(db.String(50), nullable=False)
-    usuario_codigo = db.Column(db.Integer, db.ForeignKey(
-        'usuario.codigo'), nullable=False)
+    usuario_codigo = db.Column(db.String(50), db.ForeignKey(
+        'usuario.correo'), nullable=False)
 
 
 class Tiempo_juega(db.Model):
     __tablename__ = 'tiempo_juega'
     producto_codigo = db.Column(db.Integer, db.ForeignKey(
         'producto.codigo'), nullable=False)
-    usuario_codigo = db.Column(db.Integer, db.ForeignKey(
-        'usuario.codigo'), nullable=False)
+    usuario_codigo = db.Column(db.String(50), db.ForeignKey(
+        'usuario.correo'), nullable=False)
     codigo = db.Column(db.Integer, primary_key=True)
     nro_horas = db.Column(db.Integer, default=0)
 
@@ -120,15 +119,19 @@ def create_user():
         apellido = request.get_json()['apellido']
         correo = request.get_json()['correo']
         contrasenia = request.get_json()['contrasenia']
+        option = request.get_json()['tipo']
         user = Usuario(fecha_nacimiento=fecha_nacimiento, nombre=nombre,
                        apellido=apellido, correo=correo, contrasenia=contrasenia)
         db.session.add(user)
-        db.session.commit()
-        response['fecha_nacimiento'] = user.fecha_nacimiento
-        response['nombre'] = user.nombre
-        response['apellido'] = user.apellido
-        response['correo'] = user.correo
-        response['contrasenia'] = user.contrasenia
+        db.session.commit() # TIENE QUE EXISTIR PRIMERO EL USUARIO PARA QUE EXISTA EL DESARROLLADOR
+        if option == "Desarrollador":
+            des = Desarrollador(desarrollador_codigo = correo)
+            db.session.add(des)
+            db.session.commit()
+        else:
+            buyer = Buyers(buyer_codigo = correo)
+            db.session.add(buyer)
+            db.session.commit()
     except:
         error = True
         db.session.rollback()
@@ -141,7 +144,6 @@ def create_user():
     return jsonify(response)
 
 # LOGEAR USUARIOS
-
 
 @app.route('/authenticate/login', methods=['POST'])
 def authenticate_user():
@@ -165,26 +167,18 @@ def authenticate_user():
 
 # POSTEAR PRODUCTOS
 
-
-'''
 @app.route('/publish/product', methods=['POST'])
 def publish_product():
     error = False
     response = {}
     try:
-        ti = request.get_json()['TI']
-        tf = request.get_json()['TF']
-        subasta = Subasta(Hora_inicio=ti, Hora_final=tf)
-        db.session.add(subasta)
-        db.session.commit()
-
         name = request.get_json()['name']
         price = request.get_json()['price']
         features = request.get_json()['features']
         dni = request.get_json()['DNI']
 
         producto = Producto(nombre=name, caracteristicas=features, precio_inicial=float(
-            price), subasta_id=subasta.id, dni_usuario=int(dni))
+            price), dni_usuario=int(dni))
         db.session.add(producto)
         db.session.commit()
         response['dni'] = producto.dni_usuario
@@ -202,7 +196,7 @@ def publish_product():
 
 # DELETE PRODUCTOS
 
-
+'''
 @app.route('/product/<product_id>/delete-product', methods=['DELETE'])
 def delete_producto_by_id(product_id):
     response = {}
@@ -228,7 +222,6 @@ def delete_producto_by_id(product_id):
 
 # RECARGAR SALDO
 
-
 @app.route('/recharge/wallet', methods=['PUT'])
 def recharge_wallet():
     response = {}
@@ -250,8 +243,6 @@ def recharge_wallet():
         response['error_message'] = 'No se pudo ingresar a la base de datos'
     response['error'] = error
     return jsonify(response)
-
-
 
 #EDITAR UN PRODUCTO
 @app.route('/product/<product_id>/edit-product', methods=['PUT'])
@@ -284,7 +275,7 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/templates/homepage')
+@app.route('/homepage')
 def homepage():
     return render_template('homepage.html')
 
