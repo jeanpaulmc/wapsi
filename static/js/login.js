@@ -14,7 +14,7 @@ document.getElementById("login").onsubmit = function (e) {
     }).then(function (jsonResponse) {
         console.log(jsonResponse)
         if (jsonResponse['error'] === false) {
-            window.location.replace('/templates/homepage')
+            window.location.replace('/homepage')
             document.getElementById("error").className = 'hidden'
         } else {
             document.getElementById("error").className = ''

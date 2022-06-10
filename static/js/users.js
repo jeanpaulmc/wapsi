@@ -7,7 +7,8 @@ document.getElementById("register").onsubmit = function (e) {
             'nombre': document.getElementById('nombre').value,
             'apellido': document.getElementById('apellido').value,
             'correo': document.getElementById('correo').value,
-            'contrasenia': document.getElementById('contrasenia').value
+            'contrasenia': document.getElementById('contrasenia').value,
+            'tipo' : document.getElementById('control').value
         }),
         headers: {
             'Content-Type': 'application/json'
@@ -17,7 +18,7 @@ document.getElementById("register").onsubmit = function (e) {
     }).then(function (jsonResponse) {
         console.log(jsonResponse)
         if (jsonResponse['error'] === false) {
-            window.location.replace('/templates/homepage')
+            window.location.replace('/homepage')
             document.getElementById("error").className = 'hidden'
         } else {
             document.getElementById("error").className = ''
