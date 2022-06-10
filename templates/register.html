@@ -3,17 +3,20 @@
 <form id="register">
     <h5>REGISTRO</h5>
     <!--registro del usuario -->
-    <input class="controles" type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="fecha_nacimiento"
-        min="1950-01-01" max="2004-12-31" />
+    <input class="controles" type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="fecha_nacimiento" min="1950-01-01" max="2004-12-31" />
     <!-- nombre del usuario -->
     <input class="controles" type="text" id="nombre" name="nombre" placeholder="nombre" />
     <!-- apellido -->
     <input class="controles" type="text" id="apellido" name="apellido" placeholder="apellido" />
     <!-- correo -->
     <input class="controles" type="text" id="correo" name="correo" placeholder="correo" />
+    <!-- opciones -->
+    <select class="controles" id="control" name="control" onchange="seleccionarTipo()">
+        <option value="Desarrollador">Desarrollador</option>
+        <option value="Comprador">Comprador</option>
+    </select>
     <!-- contraseña -->
-    <input class="controles" type="password" id="contrasenia" name="contrasenia" placeholder="contrasenia" />
-    <!--<input class="controles" type="password" id="password" name="password" placeholder="contraseña"/>-->
+    <input class="controles" type="password" id="contrasenia" name="contrasenia" placeholder="contraseña" />
     <input class="botones" type="submit" id="submit" value="REGISTRARSE" />
 </form>
 <script src="../static/js/users.js"></script>
