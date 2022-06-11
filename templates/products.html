@@ -3,9 +3,10 @@
 {% block navbar %}
 <nav>
     <ul class="nav__links">
-        <li><a href="#">Subastas</a></li>
-        <li><a href="/products/{{data2.dni}}">Postear</a></li>
-        <li><a href="#">Recargar</a></li>
+        <li><a href="/homepage/{{data.desarrollador_codigo}}">Inicio</a></li>
+        <li><a href="#">Tienda</a></li>
+        <li><a href="/products/{{data.desarrollador_codigo}}">Postear</a></li>
+        <li><a href="/recharge/{{data.desarrollador_codigo}}">Recargar</a></li>
     </ul>
 </nav>
 <a class="cta" href="/">Logout</a>
@@ -14,33 +15,28 @@
 {% block content %}
 <form id="public_product">
     <h1>SUBIDA DE PRODUCTO</h1>
-    <p>Su DNI:</p>
-    <input type=»text» id="DNI" name="DNI" value="{{data2.dni}}" readonly=»readonly» placeholder="{{data2.dni}}">
-    <p>Nombre del producto:</p>
+    <label>Wapsiworks es un conjunto de herramientas y servicios que ayuda a desarrolladores y editores a sacar el máximo partido a la distribución de juegos en Wapsi.
+    </label>
+    <p></p>
+    <p>Su Correo:</p>
+    <input type=»text» id="Correo" name="Correo" value="{{data.desarrollador_codigo}}" readonly=»readonly» placeholder="{{data.desarrollador_codigo}}">
+    <p>Nombre del juego:</p>
     <input type="text" id="name" name="name">
-    <p>Precio del producto</p>
-    <input type="text" id="price" name="price">
-    <p>Tiempo de inicio</p>
-    <input type="text" id="TI" name="TI">
-    <p>Tiempo final</p>
-    <input type="text" id="TF" name="TF">
-    <p>Descripcion del producto</p>
-    <input type="text" id="features" name="features">
+    <p>Precio del juego en llamacoins:</p>
+    <select class="controles" id="price" name="price">
+        <option value="250">250</option>
+        <option value="500">500</option>
+        <option value="700">700</option>
+        <option value="1500">1500</option>
+        <option value="2800">2800</option>
+    </select>
+    <p>Categoria:</p>
+    <select class="controles" id="categoria" name="categoria">
+        <option value="Autor">Autor</option>
+        <option value="Compañia">Compañia</option>
+    </select>
     <input type="submit" id="submit" value="Submit">
 </form>
-<ul id="products">
-    <li>NOMBRE DEL PRODUCTO PRECIO DEL PRODUCTO DESCRIPCION</li>
-    {% for d in data %}
-    <li>
-        {{d.nombre}} {{d.precio_inicial}} {{d.caracteristicas}}
-        <button class="delete-button" data-id="{{d.id}}">&cross;</button>
-    </li>
-    {% endfor %}
-</ul>
-
-<div id="error" class="hidden"></div>
-
-
 
 <script src="../../static/js/product.js"></script>
 

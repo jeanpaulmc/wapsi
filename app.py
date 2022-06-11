@@ -1,3 +1,4 @@
+from distutils import core
 from enum import unique
 from operator import sub
 from flask import Flask, render_template, request, jsonify
@@ -80,6 +81,7 @@ class Producto(db.Model):
     __tablename__ = 'producto'
     codigo = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), nullable=False)
+    precio = db.Column(db.Integer, nullable=False)
     categoria = db.Column(db.String(50), nullable=False)
     desarrollador_codigo = db.Column(db.Integer, db.ForeignKey(
         'desarrollador.codigo'), nullable=False)
@@ -132,6 +134,7 @@ def create_user():
             buyer = Buyers(buyer_codigo = correo)
             db.session.add(buyer)
             db.session.commit()
+        response['correo'] = user.correo
     except:
         error = True
         db.session.rollback()
@@ -152,8 +155,9 @@ def authenticate_user():
     try:
         correo = request.get_json()['correo']
         contrasenia = request.get_json()['password']
-        db.session.query(Usuario).filter(Usuario.correo == correo).filter(
+        user = db.session.query(Usuario).filter(Usuario.correo == correo).filter(
             Usuario.contrasenia == contrasenia).one()
+        response['correo'] = user.correo
     except:
         error = True
         db.session.rollback()
@@ -174,14 +178,15 @@ def publish_product():
     try:
         name = request.get_json()['name']
         price = request.get_json()['price']
-        features = request.get_json()['features']
-        dni = request.get_json()['DNI']
+        features = request.get_json()['categoria']
+        correo = request.get_json()['correo']
 
-        producto = Producto(nombre=name, caracteristicas=features, precio_inicial=float(
-            price), dni_usuario=int(dni))
+        data=Desarrollador.query.filter_by(desarrollador_codigo=correo).first()
+
+        producto = Producto(nombre=name,precio=int(price),categoria=features,desarrollador_codigo = data.codigo)
         db.session.add(producto)
         db.session.commit()
-        response['dni'] = producto.dni_usuario
+        response['correo'] = correo
 
     except:
         error = True
@@ -196,20 +201,16 @@ def publish_product():
 
 # DELETE PRODUCTOS
 
-'''
 @app.route('/product/<product_id>/delete-product', methods=['DELETE'])
 def delete_producto_by_id(product_id):
     response = {}
     error = False
     try:
         producto = db.session.query(Producto).filter(
-            Producto.id == product_id).first()
-        subasta = db.session.query(Subasta).filter(
-            Subasta.id == producto.id).first()
+            Producto.codigo == product_id).first()
         if producto is None:
             response['error_message'] = 'product_id does not exists in the database'
         db.session.delete(producto)
-        db.session.delete(subasta)
         db.session.commit()
     except:
         error = True
@@ -221,7 +222,7 @@ def delete_producto_by_id(product_id):
     return jsonify(response)
 
 # RECARGAR SALDO
-
+'''
 @app.route('/recharge/wallet', methods=['PUT'])
 def recharge_wallet():
     response = {}
@@ -275,28 +276,24 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/homepage')
-def homepage():
-    return render_template('homepage.html')
+@app.route('/homepage/<correo>')
+def homepage(correo):
+    data=Desarrollador.query.filter_by(desarrollador_codigo=correo).first()
+    my_products = db.session.query(Producto).filter(Producto.desarrollador_codigo==data.codigo)
+    return render_template('homepage.html',data=Usuario.query.filter_by(correo=correo).first(), data2=my_products)
 
+@app.route('/products/<correo>')
+def products(correo):
+    return render_template('products.html', data=Desarrollador.query.filter_by(desarrollador_codigo=correo).first())
 
-'''
+@app.route('/recharge/<correo>')
+def recharge(correo):
+    return render_template('recharge.html', data=Usuario.query.filter_by(correo=correo).first())
 
-@app.route('/products/<dni>')
-def products(dni):
-    return render_template('products.html', data2=Usuario.query.filter_by(dni=dni).first())
+@app.route('/tarjet/')
+def tarjet():
+    return render_template('tarjet.html')
 
-
-@app.route('/subasta/<dni>')
-def subasta(dni):
-    return render_template("subasta.html", data=Usuario.query.filter_by(dni=dni).first(), data2=Producto.query.all(), data3=Subasta.query.all())
-
-
-@app.route('/recharge/<dni>')
-def recharge(dni):
-    return render_template('recharge.html', data=Usuario.query.filter_by(dni=dni).first())
-
-'''
 if __name__ == '__main__':
     app.run(port=5003, debug=True)
 else:

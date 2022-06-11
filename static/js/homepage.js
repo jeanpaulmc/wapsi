@@ -3,7 +3,7 @@ const items1 = document.querySelectorAll('.delete-button')
             const item = items1[i]
             item.onclick = function(e) {
                 console.log('click event: ', e)
-                const product_id = e.target.dataset['id'];
+                const product_id = e.target.dataset['codigo'];
                 fetch('/product/'+product_id+'/delete-product', {
                     method: 'DELETE'
                 }).then(function() {

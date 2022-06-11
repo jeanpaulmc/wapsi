@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<nav>
+    <ul class="nav__links">
+        <li><a href="/homepage/{{data.correo}}">Inicio</a></li>
+        <li><a href="#">Tienda</a></li>
+        <li><a href="/products/{{data.correo}}">Postear</a></li>
+        <li><a href="/recharge/{{data.correo}}">Recargar</a></li>
+    </ul>
+</nav>
+<a class="cta" href="/">Logout</a>
+
+{% endblock %}
+
+{% block content %}
+    <!-- Nuestros servicios -->
+
+<section class="acerca-de">
+
+    <div class="info-container">
+
+      <h1>Nuestros Recargas</h1>
+      <hr>
+
+      <p>Nuestra tienda admite método de pago con tarjeta de crédito o débito, lo que te da la flexibilidad de pagar como tú quieras.</p>
+      </div>
+
+      <div class="content-table"> 
+
+        <div class="tabla">
+
+          <img src="/static/images/llama.png" alt="llamacoins"> 
+
+          <h3>Paquete de 10 soles = 50 llamacoins</h3>
+          <button value="10">Comprar</button>
+
+        </div>
+
+        <div class="tabla">
+
+          <img src="/static/images/llama.png" alt="llamacoins">
+          <h3>Paquete de 15 soles = 120 llamacoins</h3>
+          <button value="15">Comprar</button>
+
+        </div>
+
+        <div class="tabla">
+
+          <img src="/static/images/llama.png" alt="llamacoins">
+          <h3>Paquete de 50 soles = 450 llamacoins</h3>
+          <button value="50">Comprar</button>
+
+        </div>
+
+        <div class="tabla">
+
+          <img src="/static/images/llama.png" alt="llamacoins">
+          <h3>Paquete de 70 soles = 800 llamacoins</h3>
+          <button value="70">Comprar</button>
+
+        </div>
+
+        <div class="tabla">
+
+          <img src="/static/images/llama.png" alt="llamacoins">
+          <h3>Paquete de 100 soles = 1300 llamacoins</h3>
+          <button value="100">Comprar</button>
+
+        </div>
+
+        <div class="tabla">
+
+          <img src="/static/images/llama.png" alt="llamacoins">
+          <h3>Paquete de 150 soles = 1800 llamacoins</h3>
+          <button value="150">Comprar</button>
+
+        </div>
+        
+      </div>
+
+    </section>
+{% endblock %}

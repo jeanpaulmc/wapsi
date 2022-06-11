@@ -6,7 +6,10 @@
   
   body {
     font-family: 'Noto Serif', serif; /** Font **/
-    background: white;
+    background-image: url(../images/background.jpg);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: 500px;
   }
   
   .hidden{
@@ -189,8 +192,8 @@
   }
 
 .my_products li p{
-  color: black;
-  line-height: 18px;
+  color: #0152a3;
+  line-height: 30px;
   margin-bottom: 10px;
   font-size: 20px;
 }
@@ -251,3 +254,117 @@
     .all_products li button:hover{
       background:#0083c2;
     }
+
+    /** Servicios **/
+.acerca-de{
+  width: 100%;
+  margin-top: 50px;
+}
+.acerca-de .info-container{
+  width: 80%;
+  margin:auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.acerca-de .info-container h1{
+  font-size: 50px;
+  font-weight: 400;
+  color: var(--black);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.acerca-de .info-container hr{
+  width: 60%;
+  height: 2px;
+  margin:auto;
+  background: var(--black);
+}
+
+.acerca-de .info-container p{
+  font-size: 20px;
+  color: var(--black);
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+/** Edition table **/
+.acerca-de .content-table{
+  width:90%;
+  max-width:1200px;
+  margin:auto;
+  height: 130vh;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.acerca-de .content-table .tabla{
+  width: 27%;
+  height:380px;
+  margin-left:10px;
+  border: 1px solid #343759;
+  border-radius: 20px;
+  box-shadow: 0px 0px 4px 0px #343759;
+  padding: 60px;
+  text-align: center;
+  flex-grow: 1;
+  white-space: nowrap;
+}
+.acerca-de .content-table .tabla >h3{
+  font-size:20px;
+  margin-bottom:10px;
+  text-align: center;
+}
+.acerca-de .content-table .tabla img{
+  position: relative;
+  top: -61px; /* ajustar los valores para mover la imagen */
+  left: -61px;
+  height: 250px;
+  width: 390px;
+  margin-bottom: -42px;
+  border-radius: 20px;
+  flex-grow: 1;
+  display:block;
+}
+.acerca-de .content-table .tabla > button{
+  display: inline-block;
+  width: 150px;
+  padding: 12px;
+  background: 	#FFFF00;
+  text-decoration: none;
+  color:#343759;
+  border-radius: 100px;
+  border:none;
+  outline: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  margin: auto;
+}
+.acerca-de .content-table .tabla button:hover{
+  background:var(	--blue);
+}
+/*.acerca-de .content-table .tabla:hover{
+  background: #343759;
+  color: #f1f1f2;
+  transition: 1s all;
+  transform: scale(1,1);
+  cursor: pointer;
+}*/
+@media screen and (max-width: 700px){
+  .acerca-de .content-table .tabla{
+      width:45px;
+      padding:30px;
+  }
+  .acerca-de .content-table .tabla > h3{
+      margin-top:40px;
+  }
+}
+@media screen and (max-width:550px){
+  .acerca-de .content-table .tabla{
+      width: 85%;
+      padding: 20px;
+  }
+}

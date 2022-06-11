@@ -3,9 +3,10 @@
 {% block navbar %}
 <nav>
     <ul class="nav__links">
-        <li><a href="#">Subastas</a></li>
-        <li><a href="/products">Postear</a></li>
-        <li><a href="#">Recargar</a></li>
+        <li><a href="/homepage/{{data.correo}}">Inicio</a></li>
+        <li><a href="#">Tienda</a></li>
+        <li><a href="/products/{{data.correo}}">Postear</a></li>
+        <li><a href="/recharge/{{data.correo}}">Recargar</a></li>
     </ul>
 </nav>
 <a class="cta" href="/">Logout</a>
@@ -13,5 +14,15 @@
 {% endblock %}
 
 {% block content %}
+    <ul class="my_products">
+        <li>NOMBRE DEL PRODUCTO     PRECIO DEL PRODUCTO    DESCRIPCION</li>
+            {% for d in data2 %}
+                <li >
+                    <p>{{d.nombre}} {{d.precio}} {{d.categoria}}</p>
+                    <button class="delete-button" data-codigo="{{d.codigo}}" >&cross;</button>
+                </li>
+            {% endfor %}
+        </ul>
 
+        <script src="../../static/js/homepage.js"></script>
 {% endblock %}

@@ -3,12 +3,10 @@ document.getElementById("public_product").onsubmit = function(e){
     fetch('/publish/product', {
         method : 'POST',
         body : JSON.stringify({
+            'correo' : document.getElementById('Correo').value,
             'name' : document.getElementById('name').value,
             'price' : document.getElementById('price').value,
-            'features' : document.getElementById('features').value,
-            'DNI' : document.getElementById('DNI').value,
-            'TI' : document.getElementById('TI').value,
-            'TF' : document.getElementById('TF').value
+            'categoria' : document.getElementById('categoria').value
         }),
         headers : {
             'Content-type' : 'application/json'
@@ -18,8 +16,8 @@ document.getElementById("public_product").onsubmit = function(e){
     }).then(function(jsonResponse){
         console.log(jsonResponse)
         if(jsonResponse['error'] === false){
-            var dni = jsonResponse['dni'].toString()
-            window.location.replace('/homepage/'+dni)
+            var correo = jsonResponse['correo'].toString()
+            window.location.replace('/homepage/'+correo)
             document.getElementById("error").className='hidden'
         }else{
             document.getElementById("error").className=''
