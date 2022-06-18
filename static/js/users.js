@@ -1,3 +1,4 @@
+document.getElementById("Titulo").innerHTML = "Registrate"
 document.getElementById("register").onsubmit = function (e) {
     e.preventDefault();
     console.log("hola");
