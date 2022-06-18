@@ -8,7 +8,7 @@ import sys
 from sqlalchemy import sql
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost:5432/wapsi'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Softjuandius_25@localhost:5432/wapsi'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -278,6 +278,7 @@ def register():
 
 @app.route('/homepage/<correo>')
 def homepage(correo):
+    print("Hola")
     data=Desarrollador.query.filter_by(desarrollador_codigo=correo).first()
     my_products = db.session.query(Producto).filter(Producto.desarrollador_codigo==data.codigo)
     return render_template('homepage.html',data=Usuario.query.filter_by(correo=correo).first(), data2=my_products)

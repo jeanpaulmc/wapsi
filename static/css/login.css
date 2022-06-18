@@ -1,0 +1,51 @@
+  .login {
+    width: 500px;
+    height: 400px;
+    background: #4e4d4d;
+    margin: auto;
+    margin-top: 80px;
+    border-radius: 20px;
+    padding: 20px 30px;
+    color: white;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .login:hover{
+    box-shadow: 0px 0.1rem 0.4rem rgba(211, 199, 199,0.5);
+  }
+
+  .login h5 {
+    margin: 0;
+    text-align: center;
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid;
+    font-size: 20px;
+  }
+  .registrate{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .login a{
+      color: white;
+      display: inline-block;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 0.15rem;
+  }
+  .login a::before{
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0;
+      background-color: white;
+      transition: width 0.4s ease;
+  }
+
+  .login a:hover::before {
+      width: 100%;
+  }

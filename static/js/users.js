@@ -1,5 +1,6 @@
 document.getElementById("register").onsubmit = function (e) {
     e.preventDefault();
+    console.log("hola");
     fetch('/users/create', {
         method: 'POST',
         body: JSON.stringify({
