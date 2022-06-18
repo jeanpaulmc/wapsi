@@ -10,13 +10,21 @@
     <link rel="stylesheet" href="../static/css/login.css">
     <link rel="stylesheet" href="../static/css/base.css">
     <link rel="stylesheet" href="../static/css/register.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
     <title>{% block title %} {% endblock %}</title>
   </head>
   <body>
-    <h3 id="Titulo">Bienvenido de vuelta!</h3>
+    <h3 id="Titulo">Bienvenido a WAPSI</h3>
    <header>
         {% block navbar %}  {% endblock %}
     </header>
     {% block content %} {% endblock %}
+    <footer class="footer">
+      <section>
+        <a class="Contactos" href="mailto:juan.laredo@utec.edu.pe " target="_blank">Contáctanos</a>
+        <p class="telefono">Teléfono: (01) 991-174-346</p>
+        <p class="copyright">&#169 Copyright 2022</p>
+        </section>
+    </footer>
   </body>
 </html> 

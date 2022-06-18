@@ -1,0 +1,43 @@
+.footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background-color: darkslategray;
+}
+
+
+.footer section{
+    display: block;
+    padding-top: 40px;
+    color: white;
+}
+
+.footer p{
+    margin: 0;
+    padding-left: 2rem;
+}
+
+.footer a{
+    float: right;
+    text-decoration: none;
+    margin-right: 3rem;
+}
+
+.footer a:link{
+    color: white;
+    transition: color 0.3 ease;
+}
+
+.footer a:visited{
+    color: bisque;
+}
+
+.footer a:hover{
+    color: antiquewhite;
+}
+
+.telefono{
+    float: right;
+    padding-right: 3rem;
+}
